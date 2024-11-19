@@ -41,6 +41,7 @@ def windowname(wtype,vipervizport,sname,dagname):
 
 def startstreamingengine(**context):
         repo=tsslogging.getrepo()  
+        tsslogging.locallogs("INFO", "STEP 7: Visualization started")
         try:
           tsslogging.tsslogit("Visualization DAG in {}".format(os.path.basename(__file__)), "INFO" )                     
           tsslogging.git_push("/{}".format(repo),"Entry from {}".format(os.path.basename(__file__)),"origin")    
@@ -74,10 +75,30 @@ def startstreamingengine(**context):
     
         # start the viperviz on Vipervizport
         # STEP 5: START Visualization Viperviz 
-        wn = windowname('visual',vipervizport,sname,sd)
-        subprocess.run(["tmux", "new", "-d", "-s", "{}".format(wn)])
-        subprocess.run(["tmux", "send-keys", "-t", "{}".format(wn), "cd /Viperviz", "ENTER"])
-        if tss[1:] == "1":
-          subprocess.run(["tmux", "send-keys", "-t", "{}".format(wn), "/Viperviz/viperviz-linux-{} 0.0.0.0 {}".format(chip,vipervizport[1:]), "ENTER"])            
-        else:    
-          subprocess.run(["tmux", "send-keys", "-t", "{}".format(wn), "/Viperviz/viperviz-linux-{} 0.0.0.0 {}".format(chip,solutionvipervizport[1:]), "ENTER"])
+        vizgood=0
+        for i in range(5):
+          wn = windowname('visual',vipervizport,sname,sd)
+          subprocess.run(["tmux", "new", "-d", "-s", "{}".format(wn)])
+          subprocess.run(["tmux", "send-keys", "-t", "{}".format(wn), "cd /Viperviz", "ENTER"])
+          mainport=0 
+          if tss[1:] == "1":
+            subprocess.run(["tmux", "send-keys", "-t", "{}".format(wn), "/Viperviz/viperviz-linux-{} 0.0.0.0 {}".format(chip,vipervizport[1:]), "ENTER"])            
+            mainport=int(vipervizport[1:])
+          else:    
+            subprocess.run(["tmux", "send-keys", "-t", "{}".format(wn), "/Viperviz/viperviz-linux-{} 0.0.0.0 {}".format(chip,solutionvipervizport[1:]), "ENTER"])
+            mainport=int(solutionvipervizport[1:])
+
+          time.sleep(5)   
+          if tsslogging.testvizconnection(mainport)==1:
+            tsslogging.locallogs("INFO", "STEP 7: /Viperviz/viperviz-linux-{} 0.0.0.0 {}".format(chip,mainport))            
+            vizgood=1
+            break
+          else:
+             if i < 4:
+               subprocess.call(["tmux", "kill-window", "-t", "{}".format(wn)])        
+               subprocess.call(["kill", "-9", "$(lsof -i:{} -t)".format(mainport)])
+             tsslogging.locallogs("WARN", "STEP 7: Cannot make a connection to Viperviz on port {}.  Going to try again...".format(mainport))
+            
+                    
+        if vizgood==0:  
+          tsslogging.locallogs("ERROR", "STEP 7: Network issue.  Cannot make a connection to Viperviz on port {}".format(mainport))

@@ -116,7 +116,8 @@ def reinitbinaries(sname):
        
     # copy folders
     shutil.copytree("/tss_readthedocs", "/{}".format(sname),dirs_exist_ok=True)
-    
+    #remove local logs
+    os.remove('/dagslocalbackup/logs.txt')    
         
 def updateviperenv():
     # update ALL
@@ -240,10 +241,10 @@ def updateviperenv():
        r += 1
      with open(mainfile, 'w', encoding='utf-8') as file: 
       file.writelines(data)
-
+    
     subprocess.call("/tmux/starttml.sh", shell=True)
-    time.sleep(3)
-
+    time.sleep(3)        
+    
 def getparams(**context):
   args = default_args    
   VIPERHOST = ""
@@ -255,6 +256,8 @@ def getparams(**context):
   HPDEHOSTPREDICT = ""
   HPDEPORTPREDICT = ""
 
+  tsslogging.locallogs("INFO", "STEP 1: Build started") 
+    
   sname = args['solutionname']    
   desc = args['description']        
   stitle = args['solutiontitle']    
@@ -353,7 +356,7 @@ def getparams(**context):
     task_instance.xcom_push(key="{}_SOLUTIONEXTERNALPORT".format(sname),value="_{}".format(os.environ['SOLUTIONEXTERNALPORT'])) 
     task_instance.xcom_push(key="{}_SOLUTIONVIPERVIZPORT".format(sname),value="_{}".format(os.environ['SOLUTIONVIPERVIZPORT']))  
     task_instance.xcom_push(key="{}_SOLUTIONAIRFLOWPORT".format(sname),value="_{}".format(os.environ['SOLUTIONAIRFLOWPORT'])) 
-    
+   # killports()
 
   if 'MQTTUSERNAME' in os.environ:
     task_instance.xcom_push(key="{}_MQTTUSERNAME".format(sname),value=os.environ['MQTTUSERNAME'])
@@ -411,3 +414,5 @@ def getparams(**context):
   task_instance.xcom_push(key="{}_brokerhost".format(sname),value=brokerhost)
   task_instance.xcom_push(key="{}_brokerport".format(sname),value="_{}".format(brokerport))
   task_instance.xcom_push(key="{}_chip".format(sname),value=chip)
+    
+  tsslogging.locallogs("INFO", "STEP 1: completed - TML system parameters successfully gathered")

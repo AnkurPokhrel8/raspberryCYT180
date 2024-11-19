@@ -45,7 +45,7 @@ values=datapoint.value~\
 identifiers=metadata.display_name~\
 datetime=datapoint.updated_at~\
 msgid=datapoint.id~\
-latlong=lat:long', # <<< **** Specify your json criteria. Here is an example of a multiline json --  refer to https://tml-readthedocs.readthedocs.io/en/latest/
+latlong=lat:long' # <<< **** Specify your json criteria. Here is an example of a multiline json --  refer to https://tml-readthedocs.readthedocs.io/en/latest/
 }
 
 ######################################## DO NOT MODIFY BELOW #############################################
@@ -147,6 +147,7 @@ def windowname(wtype,sname,dagname):
     return wn
 
 def dopreprocessing(**context):
+       tsslogging.locallogs("INFO", "STEP 4: Preprocessing started")
        sd = context['dag'].dag_id
        sname=context['ti'].xcom_pull(task_ids='step_1_solution_task_getparams',key="{}_solutionname".format(sd))
        
@@ -200,12 +201,14 @@ if __name__ == '__main__':
         VIPERTOKEN = sys.argv[2]
         VIPERHOST = sys.argv[3] 
         VIPERPORT = sys.argv[4]                  
-
+        tsslogging.locallogs("INFO", "STEP 4: Preprocessing started")
+                     
         while True:
           try: 
             processtransactiondata()
             time.sleep(1)
-          except Exception as e:     
+          except Exception as e:    
+           tsslogging.locallogs("ERROR", "STEP 4: Preprocessing DAG in {} {}".format(os.path.basename(__file__),e))
            tsslogging.tsslogit("Preprocessing DAG in {} {}".format(os.path.basename(__file__),e), "ERROR" )                     
            tsslogging.git_push("/{}".format(repo),"Entry from {}".format(os.path.basename(__file__)),"origin")    
            break

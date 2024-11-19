@@ -19,7 +19,7 @@ default_args = {
   'enabletls': '1',   # <<< *** 1=connection is encrypted, 0=no encryption
   'microserviceid' : '', # <<< *** leave blank
   'producerid' : 'iotsolution',    # <<< *** Change as needed   
-  'preprocess_data_topic' : 'iot-preprocess-data', # << *** data for the independent variables - You created this in STEP 2
+  'preprocess_data_topic' : 'iot-preprocess', # << *** data for the independent variables - You created this in STEP 2
   'ml_prediction_topic' : 'iot-ml-prediction-results-output', # topic to store the predictions - You created this in STEP 2
   'description' : 'TML solution',    # <<< *** Change as needed   
   'companyname' : 'Your company', # <<< *** Change as needed      
@@ -201,12 +201,13 @@ if __name__ == '__main__':
          VIPERPORT=sys.argv[4]
          HPDEHOSTPREDICT=sys.argv[5]
          HPDEPORTPREDICT=sys.argv[6]    
-        
+         tsslogging.locallogs("INFO", "STEP 6: Predictions started")
          while True:
           try:              
             performPrediction()      
             time.sleep(1)
           except Exception as e:
+            tsslogging.locallogs("ERROR", "STEP 6: Predictions DAG in {} {}".format(os.path.basename(__file__),e))
             tsslogging.tsslogit("Predictions DAG in {} {}".format(os.path.basename(__file__),e), "ERROR" )                     
             tsslogging.git_push("/{}".format(repo),"Entry from {}".format(os.path.basename(__file__)),"origin")
             break

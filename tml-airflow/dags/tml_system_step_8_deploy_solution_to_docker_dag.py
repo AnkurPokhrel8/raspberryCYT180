@@ -7,7 +7,7 @@ import os
 import subprocess
 import tsslogging
 import git
-
+import time
 import sys
 
 sys.dont_write_bytecode = True
@@ -41,7 +41,7 @@ def dockerit(**context):
         if os.environ['tssbuild']=="1":
             return        
      try:
-
+     
        sd = context['dag'].dag_id
        sname=context['ti'].xcom_pull(task_ids='step_1_solution_task_getparams',key="{}_solutionname".format(sd))
         
@@ -53,23 +53,39 @@ def dockerit(**context):
        cname = os.environ['DOCKERUSERNAME']  + "/{}-{}".format(sname,chip)          
       
        print("Containername=",cname)
-        
+       tsslogging.locallogs("INFO", "STEP 8: Starting docker push for: {}".format(cname))
+            
        ti = context['task_instance']
        ti.xcom_push(key="{}_containername".format(sname),value=cname)
        ti.xcom_push(key="{}_solution_dag_to_trigger".format(sname), value=sd)
         
        scid = tsslogging.getrepo('/tmux/cidname.txt')
-       cid = os.environ['SCID']
+       cid = scid # cid added
   
        key = "trigger-{}".format(sname)
        os.environ[key] = sd
-       if os.environ['TSS'] == "1": 
-         v=subprocess.call("docker commit {} {}".format(cid,cname), shell=True)
-         print("[INFO] docker commit {} {} - message={}".format(cid,cname,v))  
+       if os.environ['TSS'] == "1" and len(cid) > 1: 
+         print("[INFO] docker commit {} {}".format(cid,cname))  
          subprocess.call("docker rmi -f $(docker images --filter 'dangling=true' -q --no-trunc)", shell=True)
-    
+         cbuf="docker commit {} {}".format(cid,cname)
+         v=subprocess.call("docker commit {} {}".format(cid,cname), shell=True)
+         time.sleep(20)    
+         if v != 0:   
+           tsslogging.locallogs("WARN", "STEP 8: There seems to be an issue creating the container.  Here is the commit command: {} - message={}.  Container may NOT pushed.".format(cbuf,v)) 
+         else:
+           tsslogging.locallogs("INFO", "STEP 8: Docker Container created.  Will push it now.  Here is the commit command: {} - message={}".format(cbuf,v))         
+           
          v=subprocess.call("docker push {}".format(cname), shell=True)  
-         print("[INFO] docker push {} - message={}".format(cname,v))  
+         time.sleep(20)               
+         if v != 0:   
+              tsslogging.locallogs("WARN", "STEP 8: There may be an issue pushing to Docker Hub, or just wait few seconds to see if the container shows up.  Here is the command: docker push {} - message={}".format(cname,v)) 
+         else:                   
+              tsslogging.locallogs("INFO", "STEP 8: Successfully ran Docker push: docker push {} - message={}".format(cname,v)) 
+       elif len(cid) <= 1:
+              tsslogging.locallogs("ERROR", "STEP 8: There seems to be an issue with docker commit. Here is the command: docker commit {} {}".format(cid,cname)) 
+              tsslogging.tsslogit("Deploying to Docker in {}".format(os.path.basename(__file__)), "ERROR" )             
+              tsslogging.git_push("/{}".format(repo),"Entry from {}".format(os.path.basename(__file__)),"origin")
+           
        os.environ['tssbuild']="1"
     
        doparse("/{}/tml-airflow/dags/tml-solutions/{}/docker_run_stop-{}.py".format(repo,sname,sname), ["--solution-name--;{}".format(sname)])
@@ -77,5 +93,6 @@ def dockerit(**context):
     
      except Exception as e:
         print("[ERROR] Step 8: ",e)
+        tsslogging.locallogs("ERROR", "STEP 8: Deploying to Docker in {}: {}".format(os.path.basename(__file__),e))
         tsslogging.tsslogit("Deploying to Docker in {}: {}".format(os.path.basename(__file__),e), "ERROR" )             
         tsslogging.git_push("/{}".format(repo),"Entry from {}".format(os.path.basename(__file__)),"origin")
