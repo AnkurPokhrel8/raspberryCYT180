@@ -10836,3 +10836,4 @@ Already up to date.
 [INFO 2024-11-20_15:33:05] Preprocessing DAG in tml_system_step_4_kafka_preprocess_dag-ankurgpt-71b9.py
 [INFO 2024-11-20_15:33:08] Visualization DAG in tml_system_step_7_kafka_visualization_dag-ankurgpt-71b9.py
 [INFO 2024-11-20_15:33:24] PrivateGPT Step 9 DAG in tml_system_step_9_privategpt_qdrant_dag-ankurgpt-71b9.py
+[INFO 2024-11-20_15:33:35] Docker DAG in tml_system_step_8_deploy_solution_to_docker_dag-ankurgpt-71b9.py
