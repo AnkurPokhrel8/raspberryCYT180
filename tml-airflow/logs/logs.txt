@@ -10828,3 +10828,4 @@ Already up to date.
 [INFO 2024-11-20_15:06:56] TML Solution Studio: git commit -a Status for project ankurgpt-71b9: fatal: paths 'project ...' with -a does not make sense
 [INFO 2024-11-20_15:06:56] TML Solution Studio: git push Status for project ankurgpt-71b9: Everything up-to-date
 [INFO 2024-11-20_15:32:22] Deleting topic cisco-network-mainstream in tml_system_step_2_kafka_createtopic_dag-ankurgpt-71b9.py
+[INFO 2024-11-20_15:32:27] Deleting topic cisco-network-preprocess in tml_system_step_2_kafka_createtopic_dag-ankurgpt-71b9.py
