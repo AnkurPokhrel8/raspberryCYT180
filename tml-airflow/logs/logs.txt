@@ -10911,3 +10911,4 @@ branch.main.merge=refs/heads/main
 origin	https://<personal access token hidden>@github.com/AnkurPokhrel8/raspberryCYT180.git (push)
 [INFO 2024-12-03_20:06:32] Deleting topic cisco-network-mainstream in tml_system_step_2_kafka_createtopic_dag-myprivategpt-71b9.py
 [INFO 2024-12-03_20:06:35] Deleting topic cisco-network-preprocess in tml_system_step_2_kafka_createtopic_dag-myprivategpt-71b9.py
+[INFO 2024-12-03_20:06:39] Deleting topic ml-data in tml_system_step_2_kafka_createtopic_dag-myprivategpt-71b9.py
