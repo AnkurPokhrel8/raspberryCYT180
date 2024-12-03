@@ -10991,3 +10991,4 @@ origin	https://<personal access token hidden>@github.com/AnkurPokhrel8/raspberry
 [INFO 2024-12-03_21:17:10] Preprocessing DAG in tml_system_step_4_kafka_preprocess_dag-myprivategpt-71b9.py
 [INFO 2024-12-03_21:17:13] Visualization DAG in tml_system_step_7_kafka_visualization_dag-myprivategpt-71b9.py
 [INFO 2024-12-03_21:17:27] PrivateGPT Step 9 DAG in tml_system_step_9_privategpt_qdrant_dag-myprivategpt-71b9.py
+[INFO 2024-12-03_21:17:37] Docker DAG in tml_system_step_8_deploy_solution_to_docker_dag-myprivategpt-71b9.py
