@@ -11124,3 +11124,4 @@ origin	https://<personal access token hidden>@github.com/AnkurPokhrel8/raspberry
 [INFO 2024-12-05_19:03:38] Deleting topic cisco-network-mainstream in tml_system_step_2_kafka_createtopic_dag-myprivategpt-71b9.py
 [INFO 2024-12-05_19:03:42] Deleting topic cisco-network-preprocess in tml_system_step_2_kafka_createtopic_dag-myprivategpt-71b9.py
 [INFO 2024-12-05_19:03:47] Deleting topic ml-data in tml_system_step_2_kafka_createtopic_dag-myprivategpt-71b9.py
+[INFO 2024-12-05_19:03:52] Deleting topic prediction-data in tml_system_step_2_kafka_createtopic_dag-myprivategpt-71b9.py
