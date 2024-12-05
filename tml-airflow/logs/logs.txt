@@ -11091,3 +11091,4 @@ origin	https://<personal access token hidden>@github.com/AnkurPokhrel8/raspberry
 [INFO 2024-12-05_18:40:18] Visualization DAG in tml_system_step_7_kafka_visualization_dag-myprivategpt-71b9.py
 [INFO 2024-12-05_18:40:34] PrivateGPT Step 9 DAG in tml_system_step_9_privategpt_qdrant_dag-myprivategpt-71b9.py
 [INFO 2024-12-05_18:40:53] Docker DAG in tml_system_step_8_deploy_solution_to_docker_dag-myprivategpt-71b9.py
+[INFO 2024-12-05_18:42:36] {'name': ['Project with slug "myprivategpt-71b9" already exists.']}
