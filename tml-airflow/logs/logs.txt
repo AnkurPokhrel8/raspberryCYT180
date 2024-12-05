@@ -10993,3 +10993,20 @@ origin	https://<personal access token hidden>@github.com/AnkurPokhrel8/raspberry
 [INFO 2024-12-03_21:17:27] PrivateGPT Step 9 DAG in tml_system_step_9_privategpt_qdrant_dag-myprivategpt-71b9.py
 [INFO 2024-12-03_21:17:37] Docker DAG in tml_system_step_8_deploy_solution_to_docker_dag-myprivategpt-71b9.py
 [INFO 2024-12-03_21:18:39] {'name': ['Project with slug "myprivategpt-71b9" already exists.']}
+[INFO 2024-12-05_17:12:28] TML Solution Studio Started: DOCKERUSERNAME=pokhrelankur8@gmail.com, GITUSERNAME=AnkurPokhrel8, GITREPOURL=https://github.com/AnkurPokhrel8/raspberryCYT180, AIRFLOWPORT=9000
+[INFO 2024-12-05_17:12:29] TML Solution Studio: Docker Login Status: WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[INFO 2024-12-05_17:12:29] TML Solution Studio: Github Config Status: core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=https://github.com/AnkurPokhrel8/raspberryCYT180
+remote.origin.fetch=+refs/heads/main:refs/remotes/origin/main
+remote.origin.pushurl=https://<personal access token hidden>@github.com/AnkurPokhrel8/raspberryCYT180.git
+branch.main.remote=origin
+branch.main.merge=refs/heads/main
+[INFO 2024-12-05_17:12:29] TML Solution Studio: Github Remote Status: origin	https://github.com/AnkurPokhrel8/raspberryCYT180 (fetch)
+origin	https://<personal access token hidden>@github.com/AnkurPokhrel8/raspberryCYT180.git (push)
