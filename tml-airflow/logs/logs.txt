@@ -11127,3 +11127,4 @@ origin	https://<personal access token hidden>@github.com/AnkurPokhrel8/raspberry
 [INFO 2024-12-05_19:03:52] Deleting topic prediction-data in tml_system_step_2_kafka_createtopic_dag-myprivategpt-71b9.py
 [INFO 2024-12-05_19:03:57] Deleting topic cisco-network-privategpt in tml_system_step_2_kafka_createtopic_dag-myprivategpt-71b9.py
 [INFO 2024-12-05_19:04:14] MQTT producing DAG in tml_read_MQTT_step_3_kafka_producetotopic_dag-myprivategpt-71b9.py
+[INFO 2024-12-05_19:04:20] Preprocessing DAG in tml_system_step_4_kafka_preprocess_dag-myprivategpt-71b9.py
